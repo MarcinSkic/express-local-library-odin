@@ -6,12 +6,20 @@ const PersonModel = require("./models/person");
 main().catch((err) => console.log(err));
 
 async function main() {
-    await mongoose.connect(process.env.MONGO_CONNECTION_STRING);
+    await mongoose.connect(process.env.MONGOOSE_TEST_CONNECTION_STRING);
 
-    //await createHermione();
-    await populateActors();
+    // await testPersonValidator();
 
     mongoose.disconnect();
+}
+
+async function testPersonValidator() {
+    try {
+        const noSurname = new PersonModel({ firstname: "Maria" });
+        await noSurname.save();
+    } catch (e) {
+        console.log(e.message);
+    }
 }
 
 async function addHarry() {
